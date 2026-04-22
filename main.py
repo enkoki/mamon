@@ -22,8 +22,11 @@ async def on_ready():
 async def on_message(message):
     if message.author == bot.user:
         return
-    if message.content.startswith('bye'):
-        await message.channel.send(f"Goodbye, {message.author}")
+    
+    content: str = message.content.lower()
+    if content.startswith('bye'):
+        await message.channel.send(f"Goodbye, {message.author.display_name}")
+        await bot.process_commands(message)
 
 @bot.tree.command(name="hello", description="Say Hello!", guild=GUILD_ID)
 async def say_hello(interaction: discord.Interaction):
