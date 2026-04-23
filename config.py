@@ -7,6 +7,5 @@ load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # Others
-ID = os.getenv("GUILD_ID")
-GUILD_ID = discord.Object(id=ID)
+GUILD_ID = discord.Object(id=os.getenv("GUILD_ID"))
 OWNER_ID = os.getenv("OWNER_ID")
