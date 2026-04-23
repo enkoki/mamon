@@ -26,7 +26,10 @@ pip install -r requirements.txt
 Set .env file with the values in `.env.example` You can get your bot token from [discord developer portal](https://discord.com/developers/applications "Discord Developer Portal").
 
 ```python
-BOT_TOKEN=your_token_here
+BOT_TOKEN = your_token_here
+BOT_STATUS = "Your Status Here"
+GUILD_ID = your_test_server_id
+OWNER_ID = your_user_id
 ```
 
 # How to run
