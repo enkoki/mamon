@@ -27,6 +27,10 @@ bot = commands.Bot(command_prefix=";", intents=intents)
 @bot.event
 async def on_ready():
     log.info(f"Logged in successfully! Online as {bot.user}")
+    await bot.change_presence(
+        status=discord.Status.online,
+        activity=discord.Game(config.BOT_STATUS)
+    )
 
 async def main():
     async with bot:
