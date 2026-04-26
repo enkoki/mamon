@@ -24,6 +24,20 @@ cogs: list = ["cogs.general", "cogs.github"]
 
 bot = commands.Bot(command_prefix=";", intents=intents)
 
+async def setup_hook():
+    log.info("Loading cogs...")
+    for cog in cogs:
+        try:
+            await bot.load_extension(cog)
+            log.info(f"Loaded {cog}")
+        except Exception as e:
+            log.error(f"Failed to load {cog}: {e}")
+    synced = await bot.tree.sync(guild=config.GUILD_ID)
+    log.info(f"Synced {len(synced)} commands")
+    log.info("Starting the bot...")
+
+bot.setup_hook = setup_hook
+
 @bot.event
 async def on_ready():
     log.info(f"Logged in successfully! Online as {bot.user}")
@@ -34,14 +48,6 @@ async def on_ready():
 
 async def main():
     async with bot:
-        log.info("Loading cogs...")
-        for cog in cogs:
-            try:
-                await bot.load_extension(cog)
-                log.info(f"Loaded {cog}")
-            except Exception as e:
-                log.error(f"Failed to load {cog}: {e}")
-        log.info("Starting the bot...")
         await bot.start(config.BOT_TOKEN)
 
 asyncio.run(main())
