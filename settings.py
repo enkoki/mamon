@@ -1,0 +1,5 @@
+VERSION = "0.1.0-alpha"
+BOT_NAME = "Mamon"
+GITHUB = "https://github.com/enkoki/mamon"
+SUPPORT_SERVER = ""
+DEFAULT_COLOR = "#E6B1FD"

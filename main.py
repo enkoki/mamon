@@ -2,6 +2,7 @@ import asyncio
 import discord
 from discord.ext import commands
 import config
+import time
 
 from rich.logging import RichHandler
 import logging
@@ -20,12 +21,13 @@ log = logging.getLogger(__name__)
 intents = discord.Intents.default()
 intents.message_content = True
 
-cogs: list = ["cogs.general", "cogs.github"]
+cogs: list = ["cogs.general", "cogs.github", "cogs.info"]
 
 bot = commands.Bot(command_prefix=";", intents=intents)
 
 async def setup_hook():
     log.info("Loading cogs...")
+    bot.start_time = time.time()
     for cog in cogs:
         try:
             await bot.load_extension(cog)

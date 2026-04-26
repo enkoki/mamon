@@ -6,6 +6,7 @@ load_dotenv()
 # Bot Configurations
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 BOT_STATUS = os.getenv("BOT_STATUS")
+BOT_INVITE = os.getenv("BOT_INVITE")
 
 # Others
 GUILD_ID = discord.Object(id=int(os.getenv("GUILD_ID")))
