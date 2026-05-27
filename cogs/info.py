@@ -10,7 +10,7 @@ class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    @app_commands.command(name="info", description="Learn about ${BOT_NAME}")
+    @app_commands.command(name="info", description=f"Learn about {BOT_NAME}")
     async def info(self, interaction: discord.Interaction):
         owner = await self.bot.fetch_user(OWNER_ID)
         embed = discord.Embed(
@@ -28,6 +28,44 @@ class Info(commands.Cog):
         embed.add_field(name="Invite", value=f"[Click here]({BOT_INVITE})")
         embed.set_footer(text=f'{self.bot.user.id} • Uptime {get_uptime(self.bot)}')
         
+        await interaction.response.send_message(embed=embed)
+        
+    @app_commands.command(name="serverinfo", description="Get details of the server")
+    async def _serverinfo(self, interaction: discord.Interaction):
+        guild = interaction.guild
+
+        text_channels = len(guild.text_channels)
+        voice_channels = len(guild.voice_channels)
+        categories = len(guild.categories)
+
+        bots = sum(1 for m in guild.members if m.bot)
+        humans = guild.member_count - bots
+
+        embed = discord.Embed(
+            title=guild.name,
+            color=discord.Colour.from_str(DEFAULT_COLOR),
+            timestamp=datetime.now()
+        )
+
+        if guild.icon:
+            embed.set_thumbnail(url=guild.icon.url)
+
+        embed.add_field(name="Owner", value=f"<@{guild.owner_id}>")
+        # embed.add_field(name="Created", value=f"<t:{int(guild.created_at.timestamp())}:R>")
+        embed.add_field(name="ID", value=guild.id)
+        embed.add_field(name="Members", value=f"{humans} ({bots})")
+        embed.add_field(name="Categories", value=f"{categories}")
+        embed.add_field(name="Text Channels", value=f"{text_channels}")
+        embed.add_field(name="Voice Channels", value=f"{voice_channels}")
+        embed.add_field(name="Boost", value=f"Level {guild.premium_tier} ({guild.premium_subscription_count} boosts)")
+        embed.add_field(name="Roles", value=len(guild.roles))
+        roles = ", ".join(role.mention for role in guild.roles[::-1])
+        if len(roles) > 1024:
+            roles = "Too many roles to display"
+        embed.add_field(name="Roles List", inline=False, value=roles)
+
+        embed.set_footer(text=f"Server Created • {guild.created_at.strftime("%Y/%m/%d")}")
+
         await interaction.response.send_message(embed=embed)
     
 async def setup(bot: commands.Bot):
