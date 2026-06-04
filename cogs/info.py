@@ -52,7 +52,7 @@ class Info(commands.Cog):
 
         embed.add_field(name="Owner", value=f"<@{guild.owner_id}>")
         # embed.add_field(name="Created", value=f"<t:{int(guild.created_at.timestamp())}:R>")
-        embed.add_field(name="ID", value=guild.id)
+        embed.add_field(name="Server Created", value=guild.created_at.strftime("%Y/%m/%d"))
         embed.add_field(name="Members", value=f"{humans} ({bots})")
         embed.add_field(name="Categories", value=f"{categories}")
         embed.add_field(name="Text Channels", value=f"{text_channels}")
@@ -64,7 +64,7 @@ class Info(commands.Cog):
             roles = "Too many roles to display"
         embed.add_field(name="Roles List", inline=False, value=roles)
 
-        embed.set_footer(text=f"Server Created • {guild.created_at.strftime("%Y/%m/%d")}")
+        embed.set_footer(text=f"ID • {guild.id}")
 
         await interaction.response.send_message(embed=embed)
     
