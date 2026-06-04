@@ -68,5 +68,45 @@ class Info(commands.Cog):
 
         await interaction.response.send_message(embed=embed)
     
+    @app_commands.command(name="userinfo", description="Get details of a user")
+    async def _userinfo(self, interaction: discord.Interaction, user: discord.User = None):
+        user = user or interaction.user
+        fetched_user = await interaction.client.fetch_user(user.id)
+
+        embed = discord.Embed(
+            color=fetched_user.accent_color or discord.Colour.from_str(DEFAULT_COLOR),
+            timestamp=datetime.now()
+        )
+        embed.set_author(name=str(user), icon_url=user.display_avatar.url)
+        embed.description = user.mention
+
+        if user.avatar:
+            embed.set_thumbnail(url=user.avatar.url)
+
+        if isinstance(user, discord.Member):
+            embed.add_field(name="Joined", value=user.joined_at.strftime("%a, %b %d, %Y %I:%M %p"), inline=True)
+
+        embed.add_field(name="Registered", value=user.created_at.strftime("%a, %b %d, %Y %I:%M %p"), inline=True)
+
+        parts = []
+        if user.avatar:
+            parts.append(f"[**Avatar**]({user.display_avatar.url})")
+        if fetched_user.banner:
+            parts.append(f"[**Banner**]({fetched_user.banner.url})")
+        if user.avatar_decoration:
+            parts.append(f"[**Frame**]({user.avatar_decoration.url})")
+        embed.add_field(name="Profile", value="\n".join(parts), inline=False)
+
+        if isinstance(user, discord.Member):
+            roles = ", ".join(role.mention for role in user.roles[1:][::-1])
+            if len(roles) > 1024:
+                roles = "Too many roles to display"
+            embed.add_field(name=f"Roles List ({len(user.roles)-1})", inline=False, value=roles)
+
+        embed.set_image(url=fetched_user.banner.url if fetched_user.banner else discord.Embed.Empty)
+        embed.set_footer(text=f"ID • {user.id}")
+        await interaction.response.send_message(embed=embed)
+
+        
 async def setup(bot: commands.Bot):
     await bot.add_cog(Info(bot), guild=GUILD_ID)
