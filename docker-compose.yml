@@ -1,0 +1,7 @@
+services:
+    bot:
+        build: .
+        container_name: mamon
+        env_file:
+            - .env
+        restart: unless-stopped
