@@ -122,5 +122,19 @@ class Info(commands.Cog):
             
         await interaction.response.send_message(embed=embed)
 
+    @app_commands.command(name="ping", description="Get the bot's latency")
+    async def _ping(self, interaction: discord.Interaction ):
+        embed = discord.Embed(
+            color=discord.Colour.from_str(DEFAULT_COLOR),
+        )
+        embed.add_field(name="Ping", value=f'{round(self.bot.latency * 1000)}ms', inline=False)
+        embed.add_field(name="Uptime", value=get_uptime(self.bot), inline=False)
+        total_members = sum(guild.member_count or 0 for guild in self.bot.guilds)
+        embed.set_footer(
+           text=f"Servers {len(self.bot.guilds)} • Members {total_members} • Shards {self.bot.shard_count or 1}"
+        )
+        
+        await interaction.response.send_message(embed=embed)
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(Info(bot), guild=GUILD_ID)
