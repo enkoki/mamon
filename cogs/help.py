@@ -5,7 +5,7 @@ from config import GUILD_ID
 from settings import BOT_NAME, DEFAULT_COLOR
 from datetime import datetime
 
-COMMANDS_PER_PAGE = 5
+COMMANDS_PER_PAGE = 10
 
 
 class HelpView(discord.ui.View):
