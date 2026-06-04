@@ -107,6 +107,20 @@ class Info(commands.Cog):
         embed.set_footer(text=f"ID • {user.id}")
         await interaction.response.send_message(embed=embed)
 
-        
+    @app_commands.command(name="avatar", description="Get the avatar of a user")
+    async def _avatar(self, interaction: discord.Interaction, user: discord.User = None):
+        user = user or interaction.user
+        fetched_user = await interaction.client.fetch_user(user.id)
+
+        embed = discord.Embed(
+            color=fetched_user.accent_color or discord.Colour.from_str(DEFAULT_COLOR),
+            timestamp=datetime.now()
+        )
+        embed.set_author(name=str(user), icon_url=user.display_avatar.url)
+        if user.avatar:
+            embed.set_image(url=user.display_avatar.url)
+            
+        await interaction.response.send_message(embed=embed)
+
 async def setup(bot: commands.Bot):
     await bot.add_cog(Info(bot), guild=GUILD_ID)
