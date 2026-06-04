@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 intents = discord.Intents.default()
 intents.message_content = True
 
-cogs: list = ["cogs.general", "cogs.github", "cogs.info"]
+cogs: list = ["cogs.help", "cogs.github", "cogs.info"]
 
 bot = commands.Bot(command_prefix=";", intents=intents)
 
