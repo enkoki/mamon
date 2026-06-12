@@ -57,7 +57,8 @@ class Help(commands.Cog):
     @app_commands.command(name="help",description="See all available commands",)
     async def _help(self, interaction: discord.Interaction):
         commands_list = sorted(
-            self.bot.tree.get_commands(guild=GUILD_ID),
+            # self.bot.tree.get_commands(guild=GUILD_ID),
+            self.bot.tree.get_commands(),
             key=lambda c: c.name,
         )
 
@@ -95,4 +96,4 @@ class Help(commands.Cog):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Help(bot), guild=GUILD_ID,)
+    await bot.add_cog(Help(bot))
