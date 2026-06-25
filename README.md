@@ -2,7 +2,7 @@
 ![](https://i.imgur.com/IBrUrab.png)
 <div align="center">
 
-![Status](https://img.shields.io/badge/status-WIP-yellow.svg)
+![Status](https://img.shields.io/badge/status-v0.5.0-yellow.svg)
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
 ![discord.py](https://img.shields.io/badge/discord.py-latest-blue.svg)
 
@@ -11,7 +11,7 @@
 A Discord bot built using **discord.py**, created for learning the basics of bot development.
 
 > [!NOTE]
-> This project is currently in **early development** and is  mainly focused on learning and experimenting with Discord bot fundamentals.
+> This project is currently in development and is mainly intended as an initial template/skeleton for a minimal working Discord bot.
 
 # Setup
 Bot requires Python 3.8+ to run.
@@ -36,5 +36,65 @@ OWNER_ID = your_user_id
 ```
 python main.py
 ```
+### Docker
 
+```bash
+# detached mode
+docker compose up --build -d
 
+# attached mode
+docker compose up --build
+```
+
+To stop:
+
+```bash
+docker compose down
+```
+# Project Structure
+
+```
+mamon/
+├── cogs/           # Command modules loaded at startup
+│   ├── github.py
+│   ├── help.py
+│   ├── info.py
+│   └── moderation.py
+├── core/
+│   └── uptime.py   # Uptime tracking
+├── utils/          # Shared helpers
+│   ├── embed.py    # Error and success embed builders
+│   ├── checks.py   # Permission and hierarchy validation
+│   └── __init__.py
+├── config.py       # Env variable loading
+├── settings.py     # Bot constants (name, version, colors)
+├── main.py         # Entry point
+├── Dockerfile
+└── docker-compose.yml
+```
+
+# Commands
+
+## Info
+| Command | Description |
+|---|---|
+| `/info` | Bot info and stats |
+| `/serverinfo` | Server details |
+| `/userinfo [user]` | User details |
+| `/avatar [user]` | Get a user's avatar |
+| `/ping` | Bot latency and uptime |
+
+## Moderation
+| Command | Description |
+|---|---|
+| `/kick <user> [reason]` | Kick a member |
+| `/ban <user> [reason]` | Ban a member |
+| `/unban <user_id> [reason]` | Unban a user by ID |
+| `/mute <user> <minutes> [reason]` | Timeout a member (max 40320 min) |
+| `/unmute <user> [reason]` | Remove a timeout |
+| `/purge <amount>` | Bulk delete messages (max 100) |
+
+## Other
+| Command | Description |
+|---|---|
+| `/help` | List all commands |
