@@ -1,4 +1,4 @@
-VERSION = "0.1.0-alpha"
+VERSION = "0.5.0-alpha"
 BOT_NAME = "Mamon"
 GITHUB = "https://github.com/enkoki/mamon"
 SUPPORT_SERVER = ""
