@@ -34,9 +34,12 @@ async def setup_hook():
             log.info(f"Loaded {cog}")
         except Exception as e:
             log.error(f"Failed to load {cog}: {e}")
-    ## 
-    synced = await bot.tree.sync(guild=config.GUILD_ID)
-    # synced = await bot.tree.sync()
+    
+    ## For Guild Testing
+    # synced = await bot.tree.sync(guild=config.GUILD_ID)
+
+    ## For Globalizing Commands (make sure to remove guild id from cogs setup)
+    synced = await bot.tree.sync()
     log.info(f"Synced {len(synced)} commands")
     log.info("Starting the bot...")
 

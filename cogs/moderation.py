@@ -160,4 +160,4 @@ class Moderation(commands.Cog):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Moderation(bot), guild=GUILD_ID)
+    await bot.add_cog(Moderation(bot))
