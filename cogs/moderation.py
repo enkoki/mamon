@@ -17,26 +17,26 @@ class Moderation(commands.Cog):
     @app_commands.checks.has_permissions(kick_members=True)
     async def kick_user(self, interaction: discord.Interaction, user: discord.Member, reason: str = "No reason"): 
         guild = interaction.guild
+        invoker = interaction.user
+        bot_member = guild.get_member(self.bot.user.id)
 
         if user.id == invoker.id:
-            return await interaction.response.send_message(embed=error_embed("Cannot kick that user"), ephemeral=True,)
+            return await interaction.response.send_message(embed=error_embed("Cannot kick yourself."), ephemeral=True,)
 
         if user.id == guild.owner_id:
-            return await interaction.response.send_message(embed=error_embed("Cannot kick Server Owner"), ephemeral=True,)
+            return await interaction.response.send_message(embed=error_embed("Cannot kick the  Server Owner"), ephemeral=True,)
 
         if user.guild_permissions.administrator:
             return await interaction.response.send_message(embed=error_embed("User has Administrator permissions."), ephemeral=True,)
 
-        bot_member = guild.get_member(self.bot.user.id)
         if bot_member.top_role <= user.top_role:
             return await interaction.response.send_message(embed=error_embed("Not enough permissions"), ephemeral=True,)
 
-        invoker = interaction.user
         if invoker.top_role <= user.top_role:
             return await interaction.response.send_message(embed=error_embed("Not enough permissions"), ephemeral=True,)
 
         await user.kick(reason=reason)
-        await interaction.response.send_message(embed=success_embed(f"{user.name} has been kicked | {reason}"))
+        await interaction.response.send_message(embed=success_embed(f"**{user.name} has been kicked** | {reason}"))
 
 
 async def setup(bot: commands.Bot):
