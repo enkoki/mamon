@@ -21,7 +21,7 @@ log = logging.getLogger(__name__)
 intents = discord.Intents.default()
 intents.message_content = True
 
-cogs: list = ["cogs.help", "cogs.github", "cogs.info"]
+cogs: list = ["cogs.help", "cogs.github", "cogs.info", "cogs.moderation"]
 
 bot = commands.Bot(command_prefix=";", intents=intents)
 
@@ -35,8 +35,8 @@ async def setup_hook():
         except Exception as e:
             log.error(f"Failed to load {cog}: {e}")
     ## 
-    # synced = await bot.tree.sync(guild=config.GUILD_ID)
-    synced = await bot.tree.sync()
+    synced = await bot.tree.sync(guild=config.GUILD_ID)
+    # synced = await bot.tree.sync()
     log.info(f"Synced {len(synced)} commands")
     log.info("Starting the bot...")
 
