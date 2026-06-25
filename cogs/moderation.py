@@ -5,6 +5,7 @@ from config import GUILD_ID
 from datetime import timedelta
 from utils import error_embed, success_embed, check_action
 
+
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -141,6 +142,20 @@ class Moderation(commands.Cog):
         await user.timeout(None, reason=reason)
         await interaction.response.send_message(
             embed=success_embed(f"**{user} was unmuted**")
+        )
+
+    @app_commands.command(name="purge", description="Delete a number of messages")
+    @app_commands.checks.has_permissions(manage_messages=True)
+    async def purge_messages(
+        self,
+        interaction: discord.Interaction,
+        amount: app_commands.Range[int, 1, 100],
+    ):
+        await interaction.response.defer(ephemeral=True)
+        deleted = await interaction.channel.purge(limit=amount)
+        await interaction.followup.send(
+            embed=success_embed(f"**Deleted {len(deleted)} message(s)**"),
+            ephemeral=True,
         )
 
 
